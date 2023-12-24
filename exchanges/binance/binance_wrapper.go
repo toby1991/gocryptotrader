@@ -884,6 +884,10 @@ func (b *Binance) GetRecentTrades(ctx context.Context, p currency.Pair, a asset.
 		}
 
 		for i := range tradeData {
+			tradeSide := order.Sell
+			if tradeData[i].IsBuyerMaker {
+				tradeSide = order.Buy
+			}
 			resp = append(resp, trade.Data{
 				TID:          strconv.FormatInt(tradeData[i].ID, 10),
 				Exchange:     b.Name,
@@ -892,6 +896,7 @@ func (b *Binance) GetRecentTrades(ctx context.Context, p currency.Pair, a asset.
 				Price:        tradeData[i].Price,
 				Amount:       tradeData[i].Quantity,
 				Timestamp:    tradeData[i].Time,
+				Side:         tradeSide,
 			})
 		}
 	case asset.USDTMarginedFutures:
@@ -901,6 +906,10 @@ func (b *Binance) GetRecentTrades(ctx context.Context, p currency.Pair, a asset.
 		}
 
 		for i := range tradeData {
+			tradeSide := order.Sell
+			if tradeData[i].IsBuyerMaker {
+				tradeSide = order.Buy
+			}
 			resp = append(resp, trade.Data{
 				TID:          strconv.FormatInt(tradeData[i].ID, 10),
 				Exchange:     b.Name,
@@ -909,6 +918,7 @@ func (b *Binance) GetRecentTrades(ctx context.Context, p currency.Pair, a asset.
 				Price:        tradeData[i].Price,
 				Amount:       tradeData[i].Qty,
 				Timestamp:    tradeData[i].Time.Time(),
+				Side:         tradeSide,
 			})
 		}
 	case asset.CoinMarginedFutures:
@@ -918,6 +928,10 @@ func (b *Binance) GetRecentTrades(ctx context.Context, p currency.Pair, a asset.
 		}
 
 		for i := range tradeData {
+			tradeSide := order.Sell
+			if tradeData[i].IsBuyerMaker {
+				tradeSide = order.Buy
+			}
 			resp = append(resp, trade.Data{
 				TID:          strconv.FormatInt(tradeData[i].ID, 10),
 				Exchange:     b.Name,
@@ -926,6 +940,7 @@ func (b *Binance) GetRecentTrades(ctx context.Context, p currency.Pair, a asset.
 				Price:        tradeData[i].Price,
 				Amount:       tradeData[i].Qty,
 				Timestamp:    tradeData[i].Time.Time(),
+				Side:         tradeSide,
 			})
 		}
 	}
